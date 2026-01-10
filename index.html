@@ -561,11 +561,6 @@
 
       ${section(lang === "ja" ? "3. 総合バランス" : "3. Overall Balance", `
         <div class="klist">${balanceRows}</div>
-        <div class="mini" style="margin-top:8px;">
-          ${lang === "ja"
-            ? "※ 総合バランスは「あなたの選択内での相対評価（3〜5）」です"
-            : "*Overall Balance is a relative rating (3–5) within your selection."}
-        </div>
       `)}
 
       ${section(lang === "ja" ? "4. 適しているジャンル" : "4. Suitable Genres", genresList)}
@@ -662,5 +657,19 @@
     if(op && own && second){ run(); }
   })();
 </script>
+
+  <footer style="text-align:center; padding:24px; font-size:14px;">
+  <a href="https://onetwo.co.jp"
+     target="_blank"
+     rel="noopener"
+     style="
+       color:#cfe7ff;
+       text-decoration:none;
+       letter-spacing:0.5px;
+     ">
+    Supervised by <strong>ONETWO</strong>
+  </a>
+</footer>
+
 </body>
 </html>
