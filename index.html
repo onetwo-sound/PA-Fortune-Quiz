@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>好みのスピーカーからわかるエンジニアタイプ診断</title>
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="好みのスピーカーからわかるエンジニアタイプ診断" />
+  <meta name="twitter:description" content="3つ選ぶだけ（重複OK）。タイプ/アプローチ/バランス/適性ジャンル/おすすめ/総評を表示＆X投稿。" />
+
+  <style>
+    :root{
+      --bg:#0b0f14; --card:#111826; --text:#e6eefc; --muted:#a9b6cc;
+      --line:rgba(255,255,255,0.12);
+      --accent:rgba(125,211,252,0.65);
+      --accent2:rgba(125,211,252,0.18);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+      background: radial-gradient(1200px 800px at 20% 10%, #17223a, var(--bg));
+      color:var(--text);
+    }
+    header{max-width:1040px;margin:0 auto;padding:22px 16px 10px}
+    h1{margin:0 0 6px;font-size:22px;letter-spacing:.2px}
+    p{margin:0;color:var(--muted);line-height:1.55}
+    .wrap{max-width:1040px;margin:0 auto;padding:12px 16px 28px;display:grid;gap:14px}
+    .grid{display:grid;gap:12px}
+    @media(min-width:980px){.grid{grid-template-columns:1.05fr .95fr}}
+    .card{
+      background:rgba(17,24,38,.92);
+      border:1px solid var(--accent2);
+      border-radius:16px;
+      padding:14px;
+      box-shadow:0 10px 34px rgba(0,0,0,.28);
+    }
+    .badge{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(125,211,252,.25);
+      background:rgba(125,211,252,.10);
+      font-weight:900;
+      margin:0 8px 8px 0;
+    }
+    label{display:block;font-weight:950;margin:10px 0 6px}
+    .subLabel{display:block;font-weight:750;color:var(--muted);font-size:12px;margin-top:2px}
+    input[type="text"], select{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.22);
+      color:var(--text);
+      font-size:16px;
+      outline:none;
+    }
+    .row{display:grid;gap:10px}
+    @media(min-width:520px){.row.two{grid-template-columns:1fr 1fr}}
+    button{
+      width:100%;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid var(--accent);
+      background:linear-gradient(180deg, rgba(125,211,252,.22), rgba(125,211,252,.08));
+      color:var(--text);
+      font-size:16px;
+      font-weight:950;
+      cursor:pointer;
+      margin-top:10px;
+    }
+    button:hover{border-color:rgba(125,211,252,.95)}
+    .ghost{
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.06);
+    }
+    .hr{height:1px;background:var(--line);margin:12px 0}
+    .title{font-size:22px;font-weight:1000;margin:2px 0 6px}
+    .desc{color:var(--muted);line-height:1.65}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,"Noto Sans Mono",monospace}
+    .mini{font-size:12px;color:var(--muted)}
+    .stars{letter-spacing:.5px}
+    .klist{display:grid;gap:6px}
+    .kitem{display:flex;justify-content:space-between;gap:10px}
+    .kitem span:first-child{color:var(--muted)}
+    .foot{color:var(--muted);font-size:13px;line-height:1.55}
+    .pill{
+      display:inline-flex;gap:8px;align-items:center;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06);
+      padding:6px 10px;border-radius:999px;
+      color:var(--muted);font-size:13px;
+    }
+    textarea{
+      width:100%;
+      min-height:120px;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      color:var(--text);
+      resize:vertical;
+      font-size:13px;
+      line-height:1.5;
+      outline:none;
+    }
+    .btnRow{display:grid;gap:10px}
+    @media(min-width:520px){.btnRow{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+
+<body>
+<header>
+  <h1>好みのスピーカーからわかるエンジニアタイプ診断</h1>
+  <p>Operate with / Own / Also Like を選ぶだけ（重複OK）。結果は日本語・英語で表示＆X投稿できます。</p>
+</header>
+
+<div class="wrap">
+  <div class="grid">
+    <div class="card">
+      <span class="badge">Input / 入力</span>
+
+      <div class="row two">
+        <div>
+          <label for="name">Name / 名前 <span class="subLabel">表示名（任意）</span></label>
+          <input id="name" type="text" placeholder="Your name / 名前" />
+        </div>
+        <div>
+          <label for="lang">Result Language / 結果の言語</label>
+          <select id="lang">
+            <option value="ja">Japanese / 日本語 🇯🇵</option>
+            <option value="en">English / 英語 🇺🇸</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <span class="badge">Speaker Selection / スピーカー選択</span>
+
+      <label for="op">1️⃣ Operate with <span class="subLabel">使いたいスピーカー</span></label>
+      <select id="op"></select>
+
+      <label for="own">2️⃣ Own / Would Buy <span class="subLabel">購入・所持したいスピーカー</span></label>
+      <select id="own"></select>
+
+      <label for="second">3️⃣ Also Like <span class="subLabel">これも好きなスピーカー</span></label>
+      <select id="second"></select>
+
+      <button id="calc">Diagnose / 診断する 🔎</button>
+
+      <div class="btnRow">
+        <button id="tweet" class="ghost" style="display:none;">Post to X / Xに投稿 🐦</button>
+        <button id="copy" class="ghost" style="display:none;">Copy X Text / 投稿文をコピー</button>
+      </div>
+
+      <div class="hr"></div>
+      <div class="foot">
+        <span class="pill">Duplicates OK / 重複OK</span>
+        <span class="pill">Link → Diagnosis URL / 診断URLへ</span>
+      </div>
+
+      <div class="hr"></div>
+      <span class="badge">X Preview / X投稿プレビュー（自動280字）</span>
+      <textarea id="tweetPreview" readonly placeholder="診断するとここにX投稿文が表示されます / Run diagnosis to generate X text"></textarea>
+      <div class="mini" id="countInfo"></div>
+    </div>
+
+    <div class="card" id="out">
+      <span class="badge">Result / 結果</span>
+      <div class="desc">左で入力して「Diagnose / 診断する」を押してください。</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+
+  // --- Speaker list (ABC) ---
+  const SPEAKERS = [
+    "Adamson",
+    "Clair",
+    "CODA",
+    "d&b",
+    "EAW",
+    "JBL",
+    "L-Acoustics",
+    "Martin Audio",
+    "Meyer Sound",
+    "NEXO"
+  ];
+
+  function fillSelect(selId){
+    const sel = $(selId);
+    sel.innerHTML = `<option value="">Select…</option>` + SPEAKERS.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join("");
+  }
+
+  function escapeHtml(str){
+    return String(str)
+      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+  }
+
+  fillSelect("op"); fillSelect("own"); fillSelect("second");
+
+  // --- Weighting (operate > own > also like) ---
+  const WEIGHT = { op: 1.25, own: 1.00, second: 0.85 };
+
+  // --- Axes for balance (fixed 5) ---
+  const AXES5 = ["impact", "detail", "speed", "throw", "system"];
+
+  const AXIS_LABEL = {
+    ja: {
+      impact:"音圧・ヘッドルーム",
+      detail:"繊細さ・解像度",
+      speed:"スピード・レスポンス",
+      throw:"遠達性・均一性",
+      system:"機能・再現性",
+    },
+    en: {
+      impact:"Impact / Headroom",
+      detail:"Detail / Resolution",
+      speed:"Speed / Transient",
+      throw:"Throw / Coverage",
+      system:"System / Predictability",
+    }
+  };
+
+  // --- Types (same as before) ---
+  const TYPES = [
+    { key:"impact_attack",
+      name:{ ja:"音圧主導・アタック重視タイプ", en:"Impact / Attack Engineer" },
+      desc:{ ja:"音の立ち上がりと当たりを最優先。多少の荒さより「出ているかどうか」で判断する。", en:"Prioritizes transient impact and the initial hit over smoothness. Judges by whether it truly ‘hits’." },
+      approach:{ ja:["アタックを殺さない","勢いを作ってから整える","第一印象を最優先"], en:["Preserve attack and transients","Build impact first, balance later","Judge by first impression"] },
+      genres:{ ja:["ロック / ハードロック","バンド系ライブ","体感重視のヒップホップ（生）"], en:["Rock / Hard Rock","Band-oriented live shows","Impact-driven Hip-Hop (live)"] },
+      final:{ ja:"あなたは、音で空気を動かせるエンジニアです。立ち上がりと当たりを信じて判断できるのは、ライブを“始められる人”の特権です。", en:"You are an engineer who can move the room with sound. Trusting impact and attack is the mark of someone who knows how to start a show." }
+    },
+    { key:"lowend_impact",
+      name:{ ja:"低中域体感・パンチタイプ", en:"Low-End Impact Engineer" },
+      desc:{ ja:"聴こえ方より体感を重視。ロー〜ローミッドの密度と押し出しで説得力を作る。", en:"Prioritizes physical impact and weight. Builds authority through low-end density and push." },
+      approach:{ ja:["ロー〜ローミッドの密度を作る","サブの翻訳を最優先","体感を崩す処理は避ける"], en:["Build low-end density","Prioritize sub translation","Avoid processing that kills weight"] },
+      genres:{ ja:["ヒップホップ / R&B","ロック（重心低め）","フェス（体感勝負）"], en:["Hip-Hop / R&B","Rock (low-centered)","Festivals (physical impact)"] },
+      final:{ ja:"あなたは、音を「聴かせる」より「感じさせる」ことができます。体感を作れる判断力は、ライブの説得力そのものです。", en:"You don’t just make sound heard — you make it felt. Your sense of physical impact gives live sound its real power." }
+    },
+    { key:"groove_transient",
+      name:{ ja:"スピード・グルーヴ優先タイプ", en:"Groove & Transient Engineer" },
+      desc:{ ja:"ノリとキレを最優先。立ち上がりとリズムの明確さで音楽を前に進める。", en:"Prioritizes groove and transient definition. Keeps music moving through speed and rhythmic clarity." },
+      approach:{ ja:["立ち上がりとキレを保つ","タイトさでグルーヴを作る","濁りはまず整理"], en:["Keep transients sharp","Build groove through tightness","Clear mud first"] },
+      genres:{ ja:["ダンス / EDM","メタル（速い曲）","クラブ / ライブハウス"], en:["Dance / EDM","Fast metal","Clubs / small venues"] },
+      final:{ ja:"あなたは、ノリが生きているかどうかを最初に見抜ける人です。スピード感を保てる判断は、音楽を前に進めます。", en:"You instinctively know when the groove is alive. Your focus on speed keeps the music moving forward." }
+    },
+    { key:"detail_focus",
+      name:{ ja:"繊細・音像整理タイプ", en:"Detail-Focused Engineer" },
+      desc:{ ja:"情報量と分離を重視。何が鳴っているかを守り、音像を整えて伝える。", en:"Prioritizes detail and separation. Organizes the soundstage so every element is understood." },
+      approach:{ ja:["情報量を残して整理する","輪郭を崩さないEQ/ダイナミクス","引き算で明瞭度を上げる"], en:["Organize without losing detail","Use EQ/dynamics that preserve edges","Subtract to increase clarity"] },
+      genres:{ ja:["ポップス","ジャズ / アコースティック","映像収録"], en:["Pop","Jazz / Acoustic","Broadcast / recording"] },
+      final:{ ja:"あなたは、音の情報量を正確に扱えるエンジニアです。「何が鳴っているか」を守れる判断は、音楽への誠実さです。", en:"You handle sonic detail with precision and care. Preserving clarity is your way of respecting the music." }
+    },
+    { key:"phase_clarity",
+      name:{ ja:"綺麗・波面整合タイプ", en:"Phase & Clarity Engineer" },
+      desc:{ ja:"整合と美しさを重視。レンジと定位の“崩れ”を嫌い、完成度で勝負する。", en:"Values alignment and cleanliness. Avoids phase smear and builds mixes on coherence and polish." },
+      approach:{ ja:["整合とレンジの美しさを守る","定位が崩れる処理は避ける","必要最小限の処理で完成度"], en:["Protect coherence and bandwidth","Avoid phase-smearing moves","Minimal processing, high polish"] },
+      genres:{ ja:["ポップス（上品）","劇場 / ホール","オーケストラ寄り"], en:["Polished pop","Theaters / halls","Orchestral-leaning shows"] },
+      final:{ ja:"あなたは、音の美しさを崩さないことに価値を見出します。整合の取れた音を作れるのは、高い完成度を知っている証拠です。", en:"You value coherence and sonic beauty. Your pursuit of alignment reflects a deep sense of quality." }
+    },
+    { key:"vocal_centric",
+      name:{ ja:"ボーカル中心・自然派タイプ", en:"Vocal-Centric Engineer" },
+      desc:{ ja:"声を中心に音楽を組み立てる。歌・言葉の自然さを最優先して成立させる。", en:"Builds the mix around the voice. Prioritizes intelligibility and natural vocal presence." },
+      approach:{ ja:["歌が自然に立つのが最優先","中域の質感を守る","過度な味付けをしない"], en:["Vocals first, naturally","Protect midrange texture","Avoid over-coloring"] },
+      genres:{ ja:["歌モノ / シンガー","ミュージカル / 演劇","ジャズ（歌）"], en:["Singer-driven shows","Musicals / theater","Vocal jazz"] },
+      final:{ ja:"あなたは、人の声を中心に音楽を組み立てられるエンジニアです。歌を自然に立たせる判断力は、現場で最も信頼されます。", en:"You build mixes around the human voice. Your ability to let vocals breathe earns lasting trust on site." }
+    },
+    { key:"coverage_control",
+      name:{ ja:"均一カバー・全体主義タイプ", en:"Coverage-Control Engineer" },
+      desc:{ ja:"会場全体の均一性を最優先。どの席でも成立する音を作る“全体視点”の人。", en:"Prioritizes consistency across the venue. Thinks system-wide to make every seat work." },
+      approach:{ ja:["全席の成立を最優先","破綻ポイントを作らない","全体バランスで押さえる"], en:["Make every seat work","Avoid failure zones","Hold the mix in system balance"] },
+      genres:{ ja:["企業 / 多目的","ポップス（均一重視）","ミュージカル"], en:["Corporate / multipurpose","Pop (consistency)","Musicals"] },
+      final:{ ja:"あなたは、会場全体を一つの音として捉えられる人です。誰一人置いていかない判断が、現場を安定させます。", en:"You listen to the entire space as one system. Your commitment to consistency keeps shows solid and reliable." }
+    },
+    { key:"long_throw",
+      name:{ ja:"遠達・スケール設計タイプ", en:"Long-Throw System Engineer" },
+      desc:{ ja:"距離と規模を前提に設計する。遠達と明瞭度の両立で大規模を成立させる。", en:"Designs for distance and scale. Balances throw and intelligibility to make large venues work." },
+      approach:{ ja:["距離を前提に明瞭度を作る","遠達の破綻を先に潰す","規模で崩れない判断"], en:["Build intelligibility for distance","Eliminate throw failure first","Scale-proof decisions"] },
+      genres:{ ja:["フェス（屋外）","アリーナ / ドーム","大規模ツアー"], en:["Outdoor festivals","Arenas / domes","Large-scale touring"] },
+      final:{ ja:"あなたは、距離と規模を前提に音を考えられるエンジニアです。スケールを恐れない判断が、大きな現場を成立させます。", en:"You design sound with distance and scale in mind. Your confidence with size makes large venues work." }
+    },
+    { key:"spatial_design",
+      name:{ ja:"配置・空間設計タイプ", en:"Spatial Design Engineer" },
+      desc:{ ja:"音色より先に空間を見る。配置と役割分担で音を作る“設計主導”の人。", en:"Sees the room before the tone. Shapes results through placement and system roles." },
+      approach:{ ja:["まず置き方から考える","役割分担で空間を作る","反射やムラを設計で回避"], en:["Placement first","Define system roles","Design around reflections and hotspots"] },
+      genres:{ ja:["体育館 / 仮設会場","変形会場","多目的"], en:["Gyms / temporary setups","Odd-shaped venues","Multipurpose rooms"] },
+      final:{ ja:"あなたは、音色より先に空間を見ています。配置で音を作れる判断力は、経験に裏打ちされた強みです。", en:"You see the space before you hear the tone. Shaping sound through placement shows true experience." }
+    },
+    { key:"reliability_driven",
+      name:{ ja:"再現性・成立重視タイプ", en:"Reliability-Driven Engineer" },
+      desc:{ ja:"最重要は成立。派手さより信頼を選び、読める結果でチームを支える。", en:"Prioritizes reliability and predictability. Chooses trust over flash and supports the whole team." },
+      approach:{ ja:["事故らない成立を最優先","読める結果に寄せる","再現性ある手順で仕上げる"], en:["Stability first","Aim for predictable results","Finish with repeatable workflow"] },
+      genres:{ ja:["企業 / ツアー複数日程","ドーム / スタジアム","多拠点運用"], en:["Corporate / multi-day touring","Domes / stadiums","Multi-venue operations"] },
+      final:{ ja:"あなたは、現場を確実に成立させるエンジニアです。派手さより信頼を選べる判断が、チームを支えています。", en:"You are the engineer who makes shows happen. Choosing reliability over flash is what teams depend on." }
+    }
+  ];
+
+  // --- Speaker vectors (heuristic) ---
+  const VEC = {
+    "Adamson":     { impact:4.7, detail:2.8, speed:4.1, throw:4.6, system:3.6, bias:"impact_attack" },
+    "Clair":       { impact:4.6, detail:2.8, speed:4.2, throw:4.0, system:3.5, bias:"impact_attack" },
+    "CODA":        { impact:4.1, detail:3.7, speed:4.7, throw:4.2, system:4.0, bias:"groove_transient" },
+    "d&b":         { impact:3.8, detail:4.0, speed:3.7, throw:4.4, system:4.7, bias:"coverage_control" },
+    "EAW":         { impact:3.7, detail:3.6, speed:3.6, throw:4.1, system:4.0, bias:"spatial_design" },
+    "JBL":         { impact:4.4, detail:2.9, speed:4.0, throw:4.7, system:3.4, bias:"long_throw" },
+    "L-Acoustics": { impact:4.0, detail:4.6, speed:4.2, throw:4.2, system:4.6, bias:"phase_clarity" },
+    "Martin Audio":{ impact:3.7, detail:4.1, speed:3.8, throw:3.9, system:3.8, bias:"vocal_centric" },
+    "Meyer Sound": { impact:3.9, detail:4.4, speed:4.0, throw:4.0, system:4.4, bias:"detail_focus" },
+    "NEXO":        { impact:3.4, detail:3.5, speed:3.4, throw:3.9, system:4.1, bias:"reliability_driven" },
+  };
+
+  function pick(selId){ return ($(selId).value || "").trim(); }
+
+  function sumAxes(picks){
+    const total = { impact:0, detail:0, speed:0, throw:0, system:0 };
+    const denom = WEIGHT.op + WEIGHT.own + WEIGHT.second;
+
+    function add(speaker, w){
+      const v = VEC[speaker];
+      if(!v) return;
+      AXES5.forEach(k => total[k] += (v[k] ?? 0) * w);
+    }
+    add(picks.op, WEIGHT.op);
+    add(picks.own, WEIGHT.own);
+    add(picks.second, WEIGHT.second);
+    AXES5.forEach(k => total[k] = total[k] / denom);
+    return total;
+  }
+
+  // --- NEW: relative stars (guarantee 3..5 and visible differences) ---
+  // Rule: top1 => 5★, next2 => 4★, bottom2 => 3★
+  function relativeStars(total){
+    const pairs = AXES5.map(k => ({ k, v: total[k] }));
+    pairs.sort((a,b)=> b.v - a.v);
+
+    const starMap = {};
+    pairs.forEach((p, idx) => {
+      if(idx === 0) starMap[p.k] = 5;
+      else if(idx <= 2) starMap[p.k] = 4;
+      else starMap[p.k] = 3;
+    });
+
+    return starMap;
+  }
+  function toStars(n){
+    return "★".repeat(n) + "☆".repeat(5-n);
+  }
+
+  function pickType(picks, total){
+    const votes = {};
+    function vote(speaker, w){
+      const v = VEC[speaker];
+      if(!v?.bias) return;
+      votes[v.bias] = (votes[v.bias] || 0) + w;
+    }
+    vote(picks.op, WEIGHT.op);
+    vote(picks.own, WEIGHT.own);
+    vote(picks.second, WEIGHT.second);
+
+    const axisMap = {
+      impact: ["impact_attack","lowend_impact"],
+      detail: ["detail_focus","phase_clarity","vocal_centric"],
+      speed:  ["groove_transient"],
+      throw:  ["long_throw","coverage_control","spatial_design"],
+      system: ["reliability_driven","coverage_control"]
+    };
+
+    let bestAxis = "impact";
+    let bestVal = total.impact;
+    AXES5.forEach(k => { if(total[k] > bestVal){ bestAxis = k; bestVal = total[k]; } });
+
+    const score = {};
+    TYPES.forEach(t => score[t.key] = (votes[t.key] || 0));
+
+    (axisMap[bestAxis] || []).forEach((k, idx) => {
+      score[k] = (score[k] || 0) + (0.35 - idx*0.08);
+    });
+
+    const sortedAxes = AXES5.slice().sort((a,b)=> total[b]-total[a]);
+    const secondAxis = sortedAxes[1];
+    (axisMap[secondAxis] || []).forEach((k, idx) => {
+      score[k] = (score[k] || 0) + (0.18 - idx*0.05);
+    });
+
+    let bestKey = TYPES[0].key;
+    let bestScore = -Infinity;
+    for(const k in score){
+      if(score[k] > bestScore){ bestScore = score[k]; bestKey = k; }
+    }
+    return TYPES.find(t => t.key === bestKey) || TYPES[0];
+  }
+
+  function recommendOne(picks, total){
+    const chosen = new Set([picks.op, picks.own, picks.second]);
+    const candidates = SPEAKERS.filter(s => !chosen.has(s));
+
+    const sorted = AXES5.slice().sort((a,b)=> total[a]-total[b]);
+    const need1 = sorted[0], need2 = sorted[1];
+
+    function benefit(s){
+      const v = VEC[s];
+      return (v?.[need1] ?? 0) * 1.15 + (v?.[need2] ?? 0) * 0.9 + (v?.system ?? 0)*0.15;
+    }
+
+    let best = candidates[0] || SPEAKERS[0];
+    let bestVal = -Infinity;
+    for(const s of candidates){
+      const val = benefit(s);
+      if(val > bestVal){ bestVal = val; best = s; }
+    }
+    return best;
+  }
+
+  function diagnosisBaseUrl(){
+    const u = new URL(window.location.href);
+    return u.origin + u.pathname;
+  }
+
+  function buildShareUrl(picks, name, lang){
+    const u = new URL(diagnosisBaseUrl());
+    if(name) u.searchParams.set("name", name);
+    u.searchParams.set("lang", lang);
+    u.searchParams.set("op", picks.op);
+    u.searchParams.set("own", picks.own);
+    u.searchParams.set("second", picks.second);
+    return u.toString();
+  }
+
+  function buildTweetText(lang, name, picks, type, diagUrl){
+    const speakersLine = `${picks.op} / ${picks.own} / ${picks.second}`;
+    const nameLineJa = name ? `【${name}の診断】` : "";
+    const nameLineEn = name ? `(${name}'s result)` : "";
+
+    const jpFull = [
+      "🎧 好みのスピーカーからわかる",
+      "エンジニアタイプ診断",
+      nameLineJa,
+      "",
+      "選んだスピーカー：",
+      speakersLine,
+      "",
+      "診断結果：",
+      type.name.ja,
+      "",
+      "スピーカーの選び方に、判断軸は出る。",
+      "あなたはどのタイプ？",
+      "",
+      "▶ 診断はこちら",
+      diagUrl,
+      "#PA #音響 #LiveSound"
+    ].filter(Boolean).join("\n");
+
+    const jpMid = [
+      "🎧 エンジニアタイプ診断",
+      nameLineJa,
+      `Speakers：${speakersLine}`,
+      `Result：${type.name.ja}`,
+      "あなたはどのタイプ？",
+      diagUrl,
+      "#PA #音響"
+    ].filter(Boolean).join("\n");
+
+    const jpShort = [
+      "🎧 エンジニアタイプ診断",
+      nameLineJa,
+      `Speakers：${speakersLine}`,
+      `Result：${type.name.ja}`,
+      diagUrl
+    ].filter(Boolean).join("\n");
+
+    const enFull = [
+      "🎧 Engineer Type Diagnosis",
+      "Based on Speaker Preference",
+      nameLineEn,
+      "",
+      "Selected Speakers:",
+      speakersLine,
+      "",
+      "Result:",
+      type.name.en,
+      "",
+      "The way you choose speakers reveals your mindset.",
+      "What type are you?",
+      "",
+      "▶ Take the test",
+      diagUrl,
+      "#LiveSound #PA"
+    ].filter(Boolean).join("\n");
+
+    const enMid = [
+      "🎧 Engineer Type Diagnosis",
+      nameLineEn,
+      `Speakers: ${speakersLine}`,
+      `Result: ${type.name.en}`,
+      "What type are you?",
+      diagUrl,
+      "#LiveSound #PA"
+    ].filter(Boolean).join("\n");
+
+    const enShort = [
+      "🎧 Engineer Type Diagnosis",
+      nameLineEn,
+      `Speakers: ${speakersLine}`,
+      `Result: ${type.name.en}`,
+      diagUrl
+    ].filter(Boolean).join("\n");
+
+    const candidates = (lang === "ja") ? [jpFull, jpMid, jpShort] : [enFull, enMid, enShort];
+    for(const c of candidates){ if(c.length <= 280) return c; }
+    const last = candidates[candidates.length - 1];
+    if(last.length <= 280) return last;
+
+    const lines = last.split("\n");
+    const urlLine = lines[lines.length - 1];
+    let base = lines.slice(0, -1).join("\n");
+    const max = 280 - (urlLine.length + 1);
+    base = base.slice(0, Math.max(0, max));
+    return base + "\n" + urlLine;
+  }
+
+  function renderResult(lang, name, picks, type, total, rec, shareUrl){
+    const L = AXIS_LABEL[lang];
+    const titlePrefix = name
+      ? (lang === "ja" ? `${name}さんの結果` : `${name}'s Result`)
+      : (lang === "ja" ? "診断結果" : "Result");
+
+    const approachList = type.approach[lang].map(s => `• ${escapeHtml(s)}`).join("<br/>");
+    const genresList = type.genres[lang].map(s => `• ${escapeHtml(s)}`).join("<br/>");
+
+    // NEW: relative star distribution 3..5 guaranteed
+    const starMap = relativeStars(total);
+
+    const balanceRows = AXES5.map(k => {
+      const label = L[k];
+      const stars = toStars(starMap[k]); // 3..5 only
+      return `<div class="kitem"><span>${escapeHtml(label)}</span><span class="stars">${stars}</span></div>`;
+    }).join("");
+
+    const section = (title, body) => `
+      <div class="hr"></div>
+      <span class="badge">${escapeHtml(title)}</span>
+      <div class="desc">${body}</div>
+    `;
+
+    $("out").innerHTML = `
+      <span class="badge">${escapeHtml(titlePrefix)}</span>
+
+      ${section(lang === "ja" ? "1. タイプ" : "1. Type", `
+        <div class="title">${escapeHtml(type.name[lang])}</div>
+        <div class="desc">${escapeHtml(type.desc[lang])}</div>
+      `)}
+
+      ${section(lang === "ja" ? "2. ミックスアプローチ" : "2. Mixing Approach", approachList)}
+
+      ${section(lang === "ja" ? "3. 総合バランス" : "3. Overall Balance", `
+        <div class="klist">${balanceRows}</div>
+        <div class="mini" style="margin-top:8px;">
+          ${lang === "ja"
+            ? "※ 総合バランスは「あなたの選択内での相対評価（3〜5）」です"
+            : "*Overall Balance is a relative rating (3–5) within your selection."}
+        </div>
+      `)}
+
+      ${section(lang === "ja" ? "4. 適しているジャンル" : "4. Suitable Genres", genresList)}
+
+      ${section(lang === "ja" ? "5. 他にお勧めスピーカー" : "5. Recommended Speaker", `
+        <strong>▶ ${escapeHtml(rec)}</strong>
+      `)}
+
+      ${section(lang === "ja" ? "6. 総評" : "6. Final Comment", escapeHtml(type.final[lang]))}
+
+      ${section(lang === "ja" ? "選んだスピーカー" : "Selected Speakers", escapeHtml(`${picks.op} / ${picks.own} / ${picks.second}`))}
+
+      ${section(lang === "ja" ? "共有リンク" : "Share Link", `<div class="mono" style="word-break:break-all;">${escapeHtml(shareUrl)}</div>`)}
+    `;
+  }
+
+  function updateTweetUI(text){
+    $("tweetPreview").value = text;
+    $("countInfo").textContent = `Length: ${text.length} / 280`;
+  }
+
+  function run(){
+    const lang = $("lang").value;
+    const name = ($("name").value || "").trim();
+
+    const picksObj = { op: pick("op"), own: pick("own"), second: pick("second") };
+    if(!picksObj.op || !picksObj.own || !picksObj.second){
+      alert(lang === "ja" ? "3つとも選んでください" : "Please select all 3 speakers.");
+      return;
+    }
+
+    const total = sumAxes(picksObj);
+    const type = pickType(picksObj, total);
+    const rec = recommendOne(picksObj, total);
+
+    const diagUrl = diagnosisBaseUrl();
+    const shareUrl = buildShareUrl(picksObj, name, lang);
+
+    renderResult(lang, name, picksObj, type, total, rec, shareUrl);
+
+    const tweetText = buildTweetText(lang, name, picksObj, type, diagUrl);
+    updateTweetUI(tweetText);
+
+    $("tweet").style.display = "block";
+    $("copy").style.display = "block";
+
+    $("tweet").onclick = () => {
+      const intent = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText);
+      window.open(intent, "_blank");
+    };
+
+    $("copy").onclick = async () => {
+      try{
+        await navigator.clipboard.writeText(tweetText);
+        $("copy").textContent = "Copied ✅";
+        setTimeout(()=> $("copy").textContent = "Copy X Text / 投稿文をコピー", 900);
+      }catch(e){
+        alert((lang === "ja") ? "コピーに失敗しました（ブラウザ制限の可能性）" : "Copy failed (browser restriction).");
+      }
+    };
+
+    const u = new URL(diagnosisBaseUrl());
+    u.searchParams.set("lang", lang);
+    if(name) u.searchParams.set("name", name);
+    u.searchParams.set("op", picksObj.op);
+    u.searchParams.set("own", picksObj.own);
+    u.searchParams.set("second", picksObj.second);
+    history.replaceState(null, "", u.toString());
+  }
+
+  $("calc").addEventListener("click", run);
+
+  (function init(){
+    const sp = new URLSearchParams(window.location.search);
+
+    const lang = sp.get("lang");
+    if(lang === "ja" || lang === "en") $("lang").value = lang;
+
+    const name = sp.get("name");
+    if(name) $("name").value = name;
+
+    const op = sp.get("op"), own = sp.get("own"), second = sp.get("second");
+
+    function setSelect(selId, value){
+      const sel = $(selId);
+      const values = Array.from(sel.options).map(o => o.value);
+      if(values.includes(value)) sel.value = value;
+    }
+
+    if(op) setSelect("op", op);
+    if(own) setSelect("own", own);
+    if(second) setSelect("second", second);
+
+    if(op && own && second){ run(); }
+  })();
+</script>
+</body>
+</html>
