@@ -566,7 +566,15 @@
       ${section(lang === "ja" ? "4. 適しているジャンル" : "4. Suitable Genres", genresList)}
 
       ${section(lang === "ja" ? "5. 他にお勧めスピーカー" : "5. Recommended Speaker", `
-        <strong>▶ ${escapeHtml(rec)}</strong>
+        ${(() => {
+  const url = SPEAKER_LINKS[rec];
+  if (url) {
+    return `<strong>▶ <a href="${url}" target="_blank" rel="noopener"
+              style="color:#7fc3ff; text-decoration:none; font-weight:700;">
+              ${escapeHtml(rec)}
+            </a></strong>`;
+  }
+  return `<strong>▶ ${escapeHtml(rec)}</strong>`;
       `)}
 
       ${section(lang === "ja" ? "6. 総評" : "6. Final Comment", escapeHtml(type.final[lang]))}
@@ -666,6 +674,19 @@
        alt="神々の里"
        style="width:100%; border-radius:12px;">
 </a>
+
+  const SPEAKER_LINKS = {
+  "Adamson": "https://www.adamsonsystems.com/",
+  "Clair": "https://www.clairglobal.com/",
+  "CODA": "https://codaaudio.com/",
+  "d&b": "https://www.dbaudio.com/",
+  "EAW": "https://eaw.com/",
+  "JBL": "https://jblpro.com/",
+  "L-Acoustics": "https://www.l-acoustics.com/",
+  "Martin Audio": "https://martin-audio.com/",
+  "Meyer Sound": "https://meyersound.com/",
+  "NEXO": "https://www.nexo-sa.com/"
+};
 
   <footer style="text-align:center; padding:24px; font-size:14px;">
   <a href="https://onetwo.co.jp"
