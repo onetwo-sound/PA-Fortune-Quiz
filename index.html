@@ -178,6 +178,8 @@
 <script>
   const $ = (id) => document.getElementById(id);
 
+  const BASE_URL = "https://onetwo.co.jp/speaker-diagnosis/index.html";
+
   // --- Speaker list (ABC) ---
   const SPEAKERS = [
     "Adamson",
@@ -436,19 +438,18 @@
   }
 
   function diagnosisBaseUrl(){
-    const u = new URL(window.location.href);
-    return u.origin + u.pathname;
-  }
+  return BASE_URL;
+}
 
   function buildShareUrl(picks, name, lang){
-    const u = new URL(diagnosisBaseUrl());
-    if(name) u.searchParams.set("name", name);
-    u.searchParams.set("lang", lang);
-    u.searchParams.set("op", picks.op);
-    u.searchParams.set("own", picks.own);
-    u.searchParams.set("second", picks.second);
-    return u.toString();
-  }
+  const u = new URL(BASE_URL);
+  if(name) u.searchParams.set("name", name);
+  u.searchParams.set("lang", lang);
+  u.searchParams.set("op", picks.op);
+  u.searchParams.set("own", picks.own);
+  u.searchParams.set("second", picks.second);
+  return u.toString();
+}
 
   function buildTweetText(lang, name, picks, type, diagUrl){
     const speakersLine = `${picks.op} / ${picks.own} / ${picks.second}`;
@@ -642,7 +643,7 @@ ${section(lang === "ja" ? "5. 他にお勧めスピーカー" : "5. Recommended 
 
     renderResult(lang, name, picksObj, type, total, rec, shareUrl);
 
-    const tweetText = buildTweetText(lang, name, picksObj, type, diagUrl);
+    const tweetText = buildTweetText(lang, name, picksObj, type, shareUrl);
     updateTweetUI(tweetText);
 
     $("tweet").style.display = "block";
